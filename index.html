@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alen Biruk's Portfoilo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <script src="https://kit.fontawesome.com/711144b4b7.js" crossorigin="anonymous"></script>
-    <link rel="icon" type="image" href="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/ebf43c033ab12d1808c6137d466aa1ef~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=9e74ea33&x-expires=1758726000&x-signature=MB7a9Wm7zUKGusDLvEPAc8cxog8%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva">
+    <link rel="icon" type="image" href="photo.jpeg">
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <style>
-        /*
+        /*s
         ========================================
         CSS Custom Properties (Base Theme)
         ========================================
@@ -144,6 +146,18 @@
         .img{
           border-radius: 90px;
         }
+/* Fade-in animation base */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* When visible */
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
     </style>
 </head>
 <body>
@@ -207,7 +221,7 @@
       <br>
       <br>
       <br>
-      <center><img class="img" src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/ebf43c033ab12d1808c6137d466aa1ef~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=9e74ea33&x-expires=1758726000&x-signature=MB7a9Wm7zUKGusDLvEPAc8cxog8%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva" alt=""></center>
+      <center><img class="img" src="photo.jpeg" alt=""></center>
       <br>
       <center><p class="fw-bold h2">Hi I'm Alen Biruk</h1></center>
       <br>
@@ -246,12 +260,23 @@
     <a href="Alen Biruk.pdf" class="btn btn-danger"> <i class="fa-solid fa-file-pdf"></i> View CV</a>
   </div>
 </div>
-<br id="contact">
 <br>
 <br>
 <br>
-<center> Mail Me <i class="fa-solid fa-arrow-right"></i> <i class="fa-solid fa-envelope"></i> alenbiruk13@gmail.com</center>
-<center><p>Call Me <i class="fa-solid fa-arrow-right"></i> <i class="fa-solid fa-phone-volume"></i> +251 713 219 393  </center></p></footer>
+<!-- Contact section (replace the broken markup with this) -->
+<section id="contact" class="content-section">
+  <div class="contact-inner reveal">
+    <p class="text-center">
+      Mail Me <i class="fa-solid fa-arrow-right"></i> <i class="fa-solid fa-envelope"></i>
+      <a href="mailto:alenbiruk13@gmail.com">alenbiruk13@gmail.com</a>
+    </p>
+    <p class="text-center">
+      Call Me <i class="fa-solid fa-arrow-right"></i> <i class="fa-solid fa-phone-volume"></i>
+      <a href="tel:+251713219393">+251 713 219 393</a>
+    </p>
+  </div>
+</section>
+
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // --- Mobile Menu Toggle ---
@@ -273,9 +298,48 @@
             });
         }
     });
+    document.addEventListener("DOMContentLoaded", function () {
+  // Find all reveal targets inside content and hero sections
+  const revealTargets = document.querySelectorAll(
+    ".content-section, .hero-section, #contact, .content-section *"
+  );
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target); // stops watching (stays visible)
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.05,
+      }
+    );
+
+    revealTargets.forEach((el) => {
+      if (!el.classList.contains("reveal")) el.classList.add("reveal");
+      observer.observe(el);
+    });
+  } else {
+    // Fallback for very old browsers
+    function showOnScroll() {
+      const winBottom = window.scrollY + window.innerHeight;
+      revealTargets.forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        const elTop = rect.top + window.scrollY;
+        if (elTop < winBottom - 100) el.classList.add("is-visible");
+      });
+    }
+    window.addEventListener("scroll", showOnScroll);
+    showOnScroll();
+  }
+});
     </script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
-
